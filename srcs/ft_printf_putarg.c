@@ -25,40 +25,58 @@ static char	*ft_printf_base(t_printf_conversion conv)
 	return (NULL);
 }
 
+/* remove F_Alternate if not needed
+ * and return the prefix size */
+static int	ft_set_alternate(t_uint64 val, const char *number,
+						int number_len, t_printf_conversion *conv)
+{
+	if ((conv->conv & C_Octal && (number[0] == '0'
+				|| conv->precision < number_len))
+		|| (conv->conv & C_Hexa && (val == 0)))
+		conv->flags &= ~F_Alternate;
+	if (conv->flags & F_Alternate)
+	{
+		if (conv->conv & C_Octal)
+			return (1);
+		if (conv->conv & C_Hexa)
+			return (2);
+	}
+	return (0);
+}
+
+static int	ft_printf_putprefix(int fd, t_printf_conversion conv)
+{
+	if (conv.flags & F_Alternate)
+	{
+		if (conv.conv & C_Octal)
+			return ((int)write(fd, "0", 1));
+		if (conv.conv & C_Hexa && conv.conv & C_Upper)
+			return ((int)write(fd, "0X", 2));
+		if (conv.conv & C_Hexa)
+			return ((int)write(fd, "0x", 2));
+	}
+	return (0);
+}
+
 static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 {
 	char	*number;
 	t_size	number_len;
 	t_size	res_len;
 
+	res_len = 0;
 	number = ft_printf_lltoa(val, conv, ft_printf_base(conv), &number_len);
 	conv.precision = (int)ft_max(conv.precision, (t_int64)number_len);
 	conv.width = (int)ft_max(conv.precision, conv.width);
-	if ((conv.conv & C_Octal && (number[0] == '0'
-				|| conv.precision < (int)number_len))
-		|| (conv.conv & C_Hexa && (val == 0)))
-		conv.flags &= ~F_Alternate;
-	conv.width -= ((conv.flags & F_Alternate) != 0)
-		* (((conv.conv & C_Octal) != 0) + ((conv.conv & C_Hexa) != 0) * 2);
-	res_len = conv.width;
+	conv.width -= ft_set_alternate(val, number, (int)number_len, &conv);
 	while (conv.width-- > conv.precision && !(conv.flags & F_Left_Adjusted))
-		write(fd, " ", 1);
-	if (conv.flags & F_Alternate)
-	{
-		if (conv.conv & C_Octal)
-			write(fd, "0", 1);
-		else if (conv.conv & C_Hexa && conv.conv & C_Upper)
-			write(fd, "0X", 2);
-		else if (conv.conv & C_Hexa)
-			write(fd, "0x", 2);
-		res_len += ((conv.conv & C_Octal) != 0)
-			+ ((conv.conv & C_Hexa) != 0) * 2;
-	}
-	while (conv.precision-- > number_len)
-		write(fd, "0", 1);
-	write(fd, number, number_len);
+		res_len += write(fd, " ", 1);
+	res_len += ft_printf_putprefix(fd, conv);
+	while (conv.precision-- > (int)number_len)
+		res_len += write(fd, "0", 1);
+	res_len += write(fd, number, number_len);
 	while (conv.width-- > conv.precision && conv.flags & F_Left_Adjusted)
-		write(fd, " ", 1);
+		res_len += write(fd, " ", 1);
 	return ((int)(res_len));
 }
 
@@ -67,6 +85,6 @@ int	ft_printf_putarg(int fd, t_printf_conversion conv, t_printf_arg arg)
 	if (conv.conv & C_Unsigned)
 		return (ft_printf_putuint(fd, conv, arg.u));
 	if (conv.conv & C_Percent)
-		return (write(fd, "%", 1));
+		return ((int)write(fd, "%", 1));
 	return (-1);
 }
