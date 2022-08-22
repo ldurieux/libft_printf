@@ -66,5 +66,7 @@ int	ft_printf_putarg(int fd, t_printf_conversion conv, t_printf_arg arg)
 {
 	if (conv.conv & C_Unsigned)
 		return (ft_printf_putuint(fd, conv, arg.u));
+	if (conv.conv & C_Percent)
+		return (write(fd, "%", 1));
 	return (-1);
 }
