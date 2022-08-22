@@ -85,7 +85,16 @@ void				ft_printf_getwritten(int written,
 int					ft_printf_putarg(int fd, t_printf_conversion conv,
 						t_printf_arg arg);
 
-char				*ft_printf_lltoa(t_uint64 value, t_printf_conversion conv,
+char				*ft_printf_base(t_printf_conversion conv);
+
+/* remove F_Alternate if not needed
+ * and return the prefix size */
+int					ft_printf_setalter(t_uint64 val, const char *number,
+						int number_len, t_printf_conversion *conv);
+
+char				*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
+						char *base, t_size *res_len);
+char				*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
 						char *base, t_size *res_len);
 
 #endif

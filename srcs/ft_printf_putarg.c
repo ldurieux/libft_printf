@@ -12,38 +12,6 @@
 
 #include "ft_printf_internal.h"
 
-static char	*ft_printf_base(t_printf_conversion conv)
-{
-	if (conv.conv & C_Decimal)
-		return ("0123456789");
-	if (conv.conv & C_Octal)
-		return ("01234567");
-	if (conv.conv & C_Hexa && !(conv.conv & C_Upper))
-		return ("0123456789abcdef");
-	if (conv.conv & C_Hexa)
-		return ("0123456789ABCDEF");
-	return (NULL);
-}
-
-/* remove F_Alternate if not needed
- * and return the prefix size */
-static int	ft_set_alternate(t_uint64 val, const char *number,
-						int number_len, t_printf_conversion *conv)
-{
-	if ((conv->conv & C_Octal && (number[0] == '0'
-				|| conv->precision < number_len))
-		|| (conv->conv & C_Hexa && (val == 0)))
-		conv->flags &= ~F_Alternate;
-	if (conv->flags & F_Alternate)
-	{
-		if (conv->conv & C_Octal)
-			return (1);
-		if (conv->conv & C_Hexa)
-			return (2);
-	}
-	return (0);
-}
-
 static int	ft_printf_putprefix(int fd, t_printf_conversion conv)
 {
 	if (conv.flags & F_Alternate)
@@ -66,10 +34,10 @@ static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	int		i;
 
 	res_len = 0;
-	number = ft_printf_lltoa(val, conv, ft_printf_base(conv), &number_len);
+	number = ft_printf_ulltoa(val, conv, ft_printf_base(conv), &number_len);
 	conv.precision = (int)ft_max(conv.precision, (t_int64)number_len);
 	conv.width = (int)ft_max(conv.precision, conv.width);
-	conv.width -= ft_set_alternate(val, number, (int)number_len, &conv);
+	conv.width -= ft_printf_setalter(val, number, (int)number_len, &conv);
 	while (conv.width-- > conv.precision && !(conv.flags & F_Left_Adjusted))
 		res_len += write(fd, " ", 1);
 	res_len += ft_printf_putprefix(fd, conv);
