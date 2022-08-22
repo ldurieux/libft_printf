@@ -88,6 +88,8 @@ int	ft_printf_putarg(int fd, t_printf_conversion conv, t_printf_arg arg)
 		return (ft_printf_putuint(fd, conv, arg.u));
 	if (conv.conv & C_Char)
 		return ((int)write(fd, &arg.c, 1));
+	if (conv.conv & C_String)
+		return ((int)write(fd, arg.s, ft_strlen(arg.s)));
 	if (conv.conv & C_Pointer)
 	{
 		conv = (t_printf_conversion)
