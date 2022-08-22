@@ -63,6 +63,7 @@ static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	char	*number;
 	t_size	number_len;
 	t_size	res_len;
+	int		i;
 
 	res_len = 0;
 	number = ft_printf_lltoa(val, conv, ft_printf_base(conv), &number_len);
@@ -72,7 +73,8 @@ static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	while (conv.width-- > conv.precision && !(conv.flags & F_Left_Adjusted))
 		res_len += write(fd, " ", 1);
 	res_len += ft_printf_putprefix(fd, conv);
-	while (conv.precision-- > (int)number_len)
+	i = conv.precision;
+	while (i-- > (int)number_len)
 		res_len += write(fd, "0", 1);
 	res_len += write(fd, number, number_len);
 	while (conv.width-- > conv.precision && conv.flags & F_Left_Adjusted)
