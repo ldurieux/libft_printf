@@ -79,6 +79,8 @@ t_printf_conversion	ft_printf_parse_conversion(char **format, va_list args);
 void				ft_printf_sanitize(t_printf_conversion *conv);
 
 t_printf_arg		ft_printf_getarg(t_printf_conversion conv, va_list args);
+void				ft_printf_getwritten(int written,
+						t_printf_conversion conv, t_printf_arg arg);
 
 int					ft_printf_putarg(int fd, t_printf_conversion conv,
 						t_printf_arg arg);

@@ -37,7 +37,10 @@ int	ft_vdprintf(int fd, const char *format, va_list ap)
 		format++;
 		conv = ft_printf_parse_conversion((char **)&format, ap);
 		arg = ft_printf_getarg(conv, ap);
-		res += ft_printf_putarg(fd, conv, arg);
+		if (conv.conv & C_Get_Written)
+			ft_printf_getwritten(res, conv, arg);
+		else
+			res += ft_printf_putarg(fd, conv, arg);
 	}
 	return (res);
 }

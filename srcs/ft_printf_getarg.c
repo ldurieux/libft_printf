@@ -83,7 +83,7 @@ t_printf_arg	ft_printf_getarg(t_printf_conversion conv, va_list args)
 		res.i = va_arg(args, int);
 	else if (conv.conv & C_String)
 		res.s = va_arg(args, char *);
-	else if (conv.conv & C_Pointer)
+	else if ((conv.conv & C_Pointer) || (conv.conv & C_Get_Written))
 		res.p = va_arg(args, void *);
 	else if (conv.conv & C_Percent)
 		res.c = '%';

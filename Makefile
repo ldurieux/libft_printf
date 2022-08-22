@@ -7,6 +7,7 @@ SRCS =  main.c \
 		srcs/ft_printf_getarg.c \
 		srcs/ft_printf_putarg.c \
 		srcs/ft_printf_lltoa.c \
+		srcs/ft_printf_getwritten.c \
 
 LIBS = -lft \
 

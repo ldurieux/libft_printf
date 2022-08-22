@@ -24,6 +24,12 @@ void	ft_printf_sanitize(t_printf_conversion *conv)
 		conv->flags &= ~F_Zero_Padded;
 	if (conv->flags & F_Force_Sign)
 		conv->flags &= ~F_Space_Prefixed;
+	if (conv->conv & C_Get_Written)
+	{
+		conv->flags = 0;
+		conv->width = 0;
+		conv->precision = -1;
+	}
 	if (conv->width < 0)
 	{
 		conv->flags |= F_Left_Adjusted;
