@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldurieux <ldurieux@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/22 16:27:32 by ldurieux          #+#    #+#             */
+/*   Updated: 2022/08/22 16:27:33 by ldurieux         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf_internal.h"
 
 char	*ft_printf_base(t_printf_conversion conv)
@@ -28,4 +40,14 @@ int	ft_printf_setalter(t_uint64 val, const char *number,
 			return (2);
 	}
 	return (0);
+}
+
+int	ft_printf_putalign(int fd, int len, char chr)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < len)
+		write(fd, &chr, 1);
+	return ((len > 0) * len);
 }

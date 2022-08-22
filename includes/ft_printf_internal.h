@@ -91,6 +91,7 @@ char				*ft_printf_base(t_printf_conversion conv);
  * and return the prefix size */
 int					ft_printf_setalter(t_uint64 val, const char *number,
 						int number_len, t_printf_conversion *conv);
+int					ft_printf_putalign(int fd, int len, char chr);
 
 char				*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
 						char *base, t_size *res_len);

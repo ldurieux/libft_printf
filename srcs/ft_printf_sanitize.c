@@ -37,4 +37,6 @@ void	ft_printf_sanitize(t_printf_conversion *conv)
 	}
 	if (conv->precision < 0)
 		conv->precision = -1;
+	if (conv->precision != -1)
+		conv->flags &= ~F_Zero_Padded;
 }
