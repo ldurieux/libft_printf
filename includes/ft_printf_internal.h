@@ -34,7 +34,7 @@ enum e_length_modifier
 	L_Int_Max		= 0x10,
 	L_Int_Size		= 0x20,
 	L_Double_Long	= 0x40,
-	L_Ptr_Diff		= 0x80,
+	L_Ptrdiff		= 0x80,
 };
 
 enum e_conversion
@@ -64,6 +64,26 @@ typedef struct s_printf_conversion
 	t_uint16	conv;
 }	t_printf_conversion;
 
+typedef union u_printf_arg
+{
+	t_int64		i;
+	t_uint64	u;
+	char		c;
+	char		*s;
+	void		*p;
+	double		f;
+	long double	lf;
+}	t_printf_arg;
+
 t_printf_conversion	ft_printf_parse_conversion(char **format, va_list args);
+void				ft_printf_sanitize(t_printf_conversion *conv);
+
+t_printf_arg		ft_printf_getarg(t_printf_conversion conv, va_list args);
+
+int					ft_printf_putarg(int fd, t_printf_conversion conv,
+						t_printf_arg arg);
+
+char				*ft_printf_lltoa(t_uint64 value, t_printf_conversion conv,
+						char *base, t_size *res_len);
 
 #endif

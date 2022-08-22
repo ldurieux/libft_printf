@@ -20,10 +20,26 @@ int	ft_vprintf(const char *format, va_list ap)
 
 int	ft_vdprintf(int fd, const char *format, va_list ap)
 {
-	(void)fd;
-	(void)format;
-	(void)ap;
-	return (-1);
+	t_printf_conversion	conv;
+	t_printf_arg		arg;
+	int					res;
+
+	res = 0;
+	while (*format)
+	{
+		while (*format != '%' && *format)
+		{
+			write(fd, format++, 1);
+			res++;
+		}
+		if (!*format)
+			break ;
+		format++;
+		conv = ft_printf_parse_conversion((char **)&format, ap);
+		arg = ft_printf_getarg(conv, ap);
+		res += ft_printf_putarg(fd, conv, arg);
+	}
+	return (res);
 }
 
 //NOLINTBEGIN

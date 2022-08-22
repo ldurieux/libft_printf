@@ -3,6 +3,10 @@ SRCS =  main.c \
 		srcs/ft_printf.c \
 		srcs/ft_printf_parse.c \
 		srcs/ft_vprintf.c \
+		srcs/ft_printf_sanitize.c \
+		srcs/ft_printf_getarg.c \
+		srcs/ft_printf_putarg.c \
+		srcs/ft_printf_lltoa.c \
 
 LIBS = -lft \
 

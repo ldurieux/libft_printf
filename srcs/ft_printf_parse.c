@@ -33,7 +33,10 @@ static void	ft_get_width_and_precision(char **format,
 				t_printf_conversion *conv, va_list args)
 {
 	if (**format == '*')
+	{
 		conv->width = va_arg(args, int);
+		(*format)++;
+	}
 	else if ((**format) >= '0' && (**format) <= '9')
 		conv->width = ft_strtoi(*format, format);
 	else
@@ -48,6 +51,8 @@ static void	ft_get_width_and_precision(char **format,
 		}
 		else if ((**format) >= '0' && (**format) <= '9')
 			conv->precision = ft_strtoi(*format, format);
+		else
+			conv->precision = 0;
 	}
 	else
 		conv->precision = -1;
@@ -71,7 +76,7 @@ static void	ft_get_length_modifier(char **format,
 		res |= (**format == 'L') * L_Double_Long;
 		res |= (**format == 'j') * L_Int_Max;
 		res |= (**format == 'z') * L_Int_Size;
-		res |= (**format == 't') * L_Ptr_Diff;
+		res |= (**format == 't') * L_Ptrdiff;
 		(*format)++;
 	}
 	else if (len == 2)
@@ -112,13 +117,11 @@ static void	ft_get_conversion(char **f, t_printf_conversion *conv)
 t_printf_conversion	ft_printf_parse_conversion(char **format, va_list args)
 {
 	t_printf_conversion	res;
-	va_list				args_cp;
 
-	va_copy(args_cp, args);
 	ft_get_flags(format, &res);
-	ft_get_width_and_precision(format, &res, args_cp);
+	ft_get_width_and_precision(format, &res, args);
 	ft_get_length_modifier(format, &res);
 	ft_get_conversion(format, &res);
-	va_end(args_cp);
+	ft_printf_sanitize(&res);
 	return (res);
 }
