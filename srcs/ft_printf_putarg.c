@@ -47,6 +47,7 @@ static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	res_len += write(fd, number, number_len);
 	while (conv.width-- > conv.precision && conv.flags & F_Left_Adjusted)
 		res_len += write(fd, " ", 1);
+	free(number);
 	return ((int)(res_len));
 }
 
@@ -97,6 +98,7 @@ static int	ft_printf_putint(int fd, t_printf_conversion conv, t_int64 val)
 	res_len += write(fd, number, number_len);
 	if (conv.flags & F_Left_Adjusted)
 		res_len += ft_printf_putalign(fd, conv.width - conv.precision, a_chr);
+	free(number);
 	return ((int)(res_len));
 }
 
