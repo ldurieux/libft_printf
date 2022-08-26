@@ -1,5 +1,4 @@
-SRCS =  main.c \
-		srcs/ft_asprintf.c \
+SRCS =	srcs/ft_asprintf.c \
 		srcs/ft_printf.c \
 		srcs/ft_printf_parse.c \
 		srcs/ft_vprintf.c \
@@ -10,7 +9,7 @@ SRCS =  main.c \
 		srcs/ft_printf_getwritten.c \
 		srcs/ft_printf_utils.c \
 
-LIBS = -lft \
+LIBS =	-lft \
 
 HEADERS = includes/
 
@@ -25,16 +24,21 @@ DEPS		= ${SRCS:.c=.d}
 CC			= gcc
 CCFLAGS		= -Wall -Wextra -g
 DEPSFLAGS	= -MMD -MP
-NAME		= ft_printf
-RM			= rm -f
+LIBDIR		= lib
+NAME		= ft_printf.a
+RM			= rm -Rf
 
 .PHONY: all clean fclean re
 
-$(NAME) : $(LIB_PATHS) $(OBJS)
-		$(CC) $(CCFLAGS) -I$(HEADERS) $(LIB_HEADERS) -o $@ $(OBJS) $(LIB_DIRS_LD) $(LIBS)
+$(NAME) : $(LIB_PATHS) $(OBJS) $(LIBDIR)
+		ar rc $(LIBDIR)/$@ $(OBJS)
+		#$(CC) $(CCFLAGS) -I$(HEADERS) $(LIB_HEADERS) -o $@ $(OBJS) $(LIB_DIRS_LD) $(LIBS)
 
 $(LIB_PATHS) :
 		make -C libs/$(notdir $(basename $@))
+
+$(LIBDIR) :
+		mkdir $(LIBDIR)
 
 all : $(NAME)
 
@@ -44,6 +48,7 @@ clean :
 fclean : clean
 		make -C $(LIB_DIRS) fclean
 		-$(RM) $(NAME)
+		-$(RM) $(LIBDIR)
 
 re : fclean all
 
