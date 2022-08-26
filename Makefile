@@ -25,7 +25,7 @@ CC			= gcc
 CCFLAGS		= -Wall -Wextra -g
 DEPSFLAGS	= -MMD -MP
 LIBDIR		= lib
-NAME		= ft_printf.a
+NAME		= libft_printf.a
 RM			= rm -Rf
 
 .PHONY: all clean fclean re
