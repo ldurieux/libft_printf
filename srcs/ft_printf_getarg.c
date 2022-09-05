@@ -27,7 +27,7 @@ static t_printf_arg	ft_getint(t_printf_conversion conv, va_list args)
 	else if (conv.length_mod & L_Int_Max)
 		res.i = (t_intmax)va_arg(args, t_intmax);
 	else if (conv.length_mod & L_Int_Size)
-		res.i = (t_int64)va_arg(args, t_size);
+		res.i = (t_int64)va_arg(args, size_t);
 	else if (conv.length_mod & L_Ptrdiff)
 		res.i = va_arg(args, t_ptrdiff);
 	else
@@ -50,7 +50,7 @@ static t_printf_arg	ft_getuint(t_printf_conversion conv, va_list args)
 	else if (conv.length_mod & L_Int_Max)
 		res.u = (t_uintmax)va_arg(args, t_uintmax);
 	else if (conv.length_mod & L_Int_Size)
-		res.u = va_arg(args, t_size);
+		res.u = va_arg(args, size_t);
 	else if (conv.length_mod & L_Ptrdiff)
 		res.u = (t_uint64)va_arg(args, t_ptrdiff);
 	else

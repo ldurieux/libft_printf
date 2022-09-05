@@ -54,7 +54,7 @@ int	ft_vsprintf(char *str, const char *format, va_list ap)
 	return (-1);
 }
 
-int	ft_vsnprintf(char *str, t_size size, const char *format, va_list ap)
+int	ft_vsnprintf(char *str, size_t size, const char *format, va_list ap)
 {
 	(void)str;
 	(void)size;

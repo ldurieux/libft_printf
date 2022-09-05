@@ -15,12 +15,12 @@
 #define LLONG_MAX_SIZE 22
 
 char	*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
-						char *base, t_size *res_len)
+						char *base, size_t *res_len)
 {
 	char	buf[LLONG_MAX_SIZE + 1];
 	char	*buf_ptr;
 	char	*res;
-	t_size	raddix;
+	size_t	raddix;
 
 	raddix = ft_strlen(base);
 	buf_ptr = &buf[LLONG_MAX_SIZE];
@@ -41,12 +41,12 @@ char	*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
 }
 
 char	*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
-						char *base, t_size *res_len)
+						char *base, size_t *res_len)
 {
 	char	buf[LLONG_MAX_SIZE + 1];
 	char	*buf_ptr;
 	char	*res;
-	t_size	raddix;
+	size_t	raddix;
 
 	raddix = ft_strlen(base);
 	buf_ptr = &buf[LLONG_MAX_SIZE];

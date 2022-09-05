@@ -46,7 +46,7 @@ int	ft_sprintf(char *str, const char *format, ...)
 	return (res);
 }
 
-int	ft_snprintf(char *str, t_size size, const char *format, ...)
+int	ft_snprintf(char *str, size_t size, const char *format, ...)
 {
 	va_list	args;
 	int		res;

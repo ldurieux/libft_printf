@@ -29,8 +29,8 @@ static int	ft_printf_putprefix(int fd, t_printf_conversion conv)
 static int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 {
 	char	*number;
-	t_size	number_len;
-	t_size	res_len;
+	size_t	number_len;
+	size_t	res_len;
 	int		i;
 
 	res_len = 0;
@@ -76,8 +76,8 @@ static t_bool	ft_printf_putsign(int fd, t_int64 val, t_printf_conversion conv)
 static int	ft_printf_putint(int fd, t_printf_conversion conv, t_int64 val)
 {
 	char	*number;
-	t_size	number_len;
-	t_size	res_len;
+	size_t	number_len;
+	size_t	res_len;
 	char	a_chr;
 	int		has_precision;
 

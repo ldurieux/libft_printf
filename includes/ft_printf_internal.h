@@ -94,8 +94,8 @@ int					ft_printf_setalter(t_uint64 val, const char *number,
 int					ft_printf_putalign(int fd, int len, char chr);
 
 char				*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
-						char *base, t_size *res_len);
+						char *base, size_t *res_len);
 char				*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
-						char *base, t_size *res_len);
+						char *base, size_t *res_len);
 
 #endif
