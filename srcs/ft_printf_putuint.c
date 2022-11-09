@@ -33,7 +33,7 @@ int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	while (i-- > (int)number_len)
 		res_len += write(fd, "0", 1);
 	res_len += write(fd, number, number_len);
-	while (conv.width-- > conv.precision && conv.flags & F_Left_Adjusted)
+	while (conv.width-- + 1 > conv.precision && conv.flags & F_Left_Adjusted)
 		res_len += write(fd, " ", 1);
 	free(number);
 	return ((int)(res_len));

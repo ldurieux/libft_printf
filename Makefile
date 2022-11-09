@@ -1,4 +1,4 @@
-NAME		= libftprintf
+NAME		= libftprintf.a
 
 SRCS	= \
 		  srcs/ft_printf.c \
@@ -21,7 +21,6 @@ SRCS	= \
 		  srcs/ft_strtoi.c \
 		  srcs/ft_strlen.c \
 		  srcs/ft_strncmp.c \
-		  main.c \
 
 ASMSRCS		= \
 
@@ -41,7 +40,7 @@ DEPS		= ${SRCS:.c=.d}
 DEPS_BONUS	= ${SRCS_BONUS:.c=.d}
 CC			= cc
 CCWFLGS		= -Wall -Wextra -Werror
-CCDBGFLGS	= -fsanitize=address -g
+CCDBGFLGS	= 
 CCO1FLGS	= -O1 -march=native
 CCO2FLGS	= -O2 -march=native
 CCO3FLGS	= -O3 -march=native
@@ -56,8 +55,8 @@ NASMFLAGS	= -felf64
 .PHONY: all clean fclean re bonus
 
 $(NAME) : $(LIB_PATHS) $(OBJS)
-		#$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-		$(CC) $(CCWFLGS) $(CCDBGFLGS) -I$(HEADERS) -o $(NAME) $(OBJS)
+		$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+		#$(CC) $(CCWFLGS) $(CCDBGFLGS) -I$(HEADERS) -o $(NAME) $(OBJS)
 
 bonus : $(OBJS) $(OBJS_BONUS)
 		$(AR) $(ARFLAGS) $(NAME) $(OBJS) $(OBJS_BONUS)
