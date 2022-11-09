@@ -1,59 +1,84 @@
+NAME		= libftprintf
+
 SRCS	= \
-			srcs/ft_asprintf.c \
-			srcs/ft_printf.c \
-			srcs/ft_printf_parse.c \
-			srcs/ft_vprintf.c \
-			srcs/ft_printf_sanitize.c \
-			srcs/ft_printf_getarg.c \
-			srcs/ft_printf_putarg.c \
-			srcs/ft_printf_lltoa.c \
-			srcs/ft_printf_getwritten.c \
-			srcs/ft_printf_utils.c \
+		  srcs/ft_printf.c \
+		  srcs/ft_vprintf.c \
+		  srcs/ft_asprintf.c \
+		  srcs/ft_printf_parse.c \
+		  srcs/ft_printf_getarg.c \
+		  srcs/ft_printf_putarg.c \
+		  srcs/ft_printf_putint.c \
+		  srcs/ft_printf_putuint.c \
+		  srcs/ft_printf_putchar.c \
+		  srcs/ft_printf_putstr.c \
+		  srcs/ft_printf_putptr.c \
+		  srcs/ft_printf_getwritten.c \
+		  srcs/ft_printf_sanitize.c \
+		  srcs/ft_printf_utils.c \
+		  srcs/ft_printf_lltoa.c \
+		  srcs/ft_strpbrk.c \
+		  srcs/ft_memcpy.c \
+		  srcs/ft_strtoi.c \
+		  srcs/ft_strlen.c \
+		  srcs/ft_strncmp.c \
+		  main.c \
 
-LIBS	=	-lft \
+ASMSRCS		= \
 
-HEADERS	=	includes/
+LIB_NAMES	= \
 
-LIB_NAMES	= $(subst -l,lib,$(LIBS))
+HEADERS		= \
+			  includes \
+
+LIBS		= $(subst lib,-l,$(notdir $(LIB_NAMES)))
 LIB_LD		= $(foreach lib,$(LIB_NAMES),-L$(lib))
-LIB_PATHS	= $(foreach lib,$(LIB_NAMES),$(lib)/$(lib).a)
-LIB_HEADERS	= $(foreach lib,$(LIB_NAMES),-I$(lib)/includes/)
+LIB_PATHS	= $(foreach lib,$(LIB_NAMES),$(lib)/$(notdir $(lib)).a)
+LIB_HEADERS	= $(foreach lib,$(LIB_NAMES),-I$(lib))
 
-OBJS		= ${SRCS:.c=.o}
+OBJS		= ${SRCS:.c=.o} $(ASMSRCS:.asm=.o)
+OBJS_BONUS	= ${SRCS_BONUS:.c=.o}
 DEPS		= ${SRCS:.c=.d}
-CC			= gcc
-CCFLAGS		= -Wall -Wextra -g
+DEPS_BONUS	= ${SRCS_BONUS:.c=.d}
+CC			= cc
+CCWFLGS		= -Wall -Wextra -Werror
+CCDBGFLGS	= -fsanitize=address -g
+CCO1FLGS	= -O1 -march=native
+CCO2FLGS	= -O2 -march=native
+CCO3FLGS	= -O3 -march=native
 DEPSFLAGS	= -MMD -MP
-NAME		= libft_printf.a
 RM			= rm -f
 MAKE		= make -C
-WRAP		=
 AR			= ar
-AR_FLAGS	= rc
+ARFLAGS		= rcs
+NASM		= nasm
+NASMFLAGS	= -felf64
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
 
 $(NAME) : $(LIB_PATHS) $(OBJS)
-		$(AR) $(AR_FLAGS) $(NAME) $(OBJS)
-		#$(CC) $(CCFLAGS) -I$(HEADERS) $(LIB_HEADERS) -o $(NAME) $(OBJS) $(LIB_LD) $(LIBS)
+		#$(AR) $(ARFLAGS) $(NAME) $(OBJS)
+		$(CC) $(CCWFLGS) $(CCDBGFLGS) -I$(HEADERS) -o $(NAME) $(OBJS)
+
+bonus : $(OBJS) $(OBJS_BONUS)
+		$(AR) $(ARFLAGS) $(NAME) $(OBJS) $(OBJS_BONUS)
 
 $(LIB_PATHS) :
-		$(MAKE) $(notdir $(basename $@))
+		$(MAKE) $(dir $@)
 
 all : $(NAME)
 
 clean :
-		-$(RM) $(OBJS) $(DEPS)
+		-$(RM) $(OBJS) $(DEPS) $(OBJS_BONUS) $(DEPS_BONUS)
 
 fclean : clean
-		$(foreach lib, $(LIB_NAMES), \
-			$(MAKE) $(lib) fclean; \
-		)
 		-$(RM) $(NAME)
 
 re : fclean all
 
+%.o : %.asm Makefile
+		$(NASM) $(NASMFLAGS) -o $@ $<
+
 -include $(DEPS)
 
 %.o : %.c Makefile
-		$(CC) $(CCFLAGS) $(DEPSFLAGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@ $(LIB_LD) $(LIBS)
+		$(CC) $(CCWFLGS) $(CCDBGFLGS) $(DEPSFLAGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@

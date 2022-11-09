@@ -98,4 +98,15 @@ char				*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
 char				*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
 						char *base, size_t *res_len);
 
+int					ft_printf_putint(int fd, t_printf_conversion conv,
+						t_int64 val);
+int					ft_printf_putuint(int fd, t_printf_conversion conv,
+						t_uint64 val);
+int					ft_printf_putchar(int fd, t_printf_conversion conv,
+						char val);
+int					ft_printf_putstr(int fd, t_printf_conversion conv,
+						char *str);
+int					ft_printf_putptr(int fd, t_printf_conversion conv,
+						t_uint64 val);
+
 #endif
