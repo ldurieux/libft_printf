@@ -20,21 +20,23 @@ int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	size_t	number_len;
 	size_t	res_len;
 	int		i;
+	char	a_chr;
 
+	a_chr = (char)(' ' + ((conv.flags & F_Zero_Padded) != 0) * ('0' - ' '));
 	res_len = 0;
 	number = ft_printf_ulltoa(val, conv, ft_printf_base(conv), &number_len);
 	conv.precision = (int)ft_max(conv.precision, (t_int64)number_len);
 	conv.width = (int)ft_max(conv.precision, conv.width);
 	conv.width -= ft_printf_setalter(val, number, (int)number_len, &conv);
-	while (conv.width-- > conv.precision && !(conv.flags & F_Left_Adjusted))
-		res_len += write(fd, " ", 1);
+	if (!(conv.flags & F_Left_Adjusted))
+		res_len += ft_printf_putalign(fd, conv.width - conv.precision, a_chr);
 	res_len += ft_printf_putprefix(fd, conv);
 	i = conv.precision;
 	while (i-- > (int)number_len)
 		res_len += write(fd, "0", 1);
 	res_len += write(fd, number, number_len);
-	while (conv.width-- + 1 > conv.precision && conv.flags & F_Left_Adjusted)
-		res_len += write(fd, " ", 1);
+	if (conv.flags & F_Left_Adjusted)
+		res_len += ft_printf_putalign(fd, conv.width - conv.precision, a_chr);
 	free(number);
 	return ((int)(res_len));
 }

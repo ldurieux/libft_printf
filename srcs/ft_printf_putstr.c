@@ -3,7 +3,6 @@
 int	ft_printf_putstr(int fd, t_printf_conversion conv, char *str)
 {
 	size_t	size;
-	size_t	i;
 	size_t	str_len;
 
 	str_len = ft_strlen(str);
@@ -17,11 +16,10 @@ int	ft_printf_putstr(int fd, t_printf_conversion conv, char *str)
 		size = 0;
 	else
 		size -= str_len;
-	i = (size_t)-1;
-	while (++i < size && !(conv.flags & F_Left_Adjusted))
-		write(fd, " ", 1);
+	if (!(conv.flags & F_Left_Adjusted))
+		ft_printf_putalign(fd, (int)size, ' ');
 	write(fd, str, str_len);
-	while (++i - 1 < size && conv.flags & F_Left_Adjusted)
-		write(fd, " ", 1);
+	if (conv.flags & F_Left_Adjusted)
+		ft_printf_putalign(fd, (int)size, ' ');
 	return ((int)(size + str_len));
 }
