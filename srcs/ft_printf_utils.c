@@ -42,12 +42,14 @@ int	ft_printf_setalter(t_uint64 val, const char *number,
 	return (0);
 }
 
-int	ft_printf_putalign(int fd, int len, char chr)
+size_t	ft_printf_putalign(int fd, int len, char chr)
 {
 	int	i;
 
+	if (len <= 0)
+		return (0);
 	i = 0;
 	while (i++ < len)
 		write(fd, &chr, 1);
-	return ((len > 0) * len);
+	return ((size_t)len);
 }

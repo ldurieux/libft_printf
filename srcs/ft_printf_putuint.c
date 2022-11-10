@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_putuint.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldurieux <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/10 17:01:54 by ldurieux          #+#    #+#             */
+/*   Updated: 2022/11/10 17:01:56 by ldurieux         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf_internal.h"
 
-static int	ft_printf_putprefix(int fd, t_printf_conversion conv)
+static size_t	ft_printf_putprefix(int fd, t_printf_conversion conv)
 {
 	if (conv.flags & F_Alternate)
 	{
 		if (conv.conv & C_Octal)
-			return ((int)write(fd, "0", 1));
+			return ((size_t)write(fd, "0", 1));
 		if (conv.conv & C_Hexa && conv.conv & C_Upper)
-			return ((int)write(fd, "0X", 2));
+			return ((size_t)write(fd, "0X", 2));
 		if (conv.conv & C_Hexa)
-			return ((int)write(fd, "0x", 2));
+			return ((size_t)write(fd, "0x", 2));
 	}
 	return (0);
 }
@@ -33,8 +45,8 @@ int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	res_len += ft_printf_putprefix(fd, conv);
 	i = conv.precision;
 	while (i-- > (int)number_len)
-		res_len += write(fd, "0", 1);
-	res_len += write(fd, number, number_len);
+		res_len += (size_t)write(fd, "0", 1);
+	res_len += (size_t)write(fd, number, number_len);
 	if (conv.flags & F_Left_Adjusted)
 		res_len += ft_printf_putalign(fd, conv.width - conv.precision, a_chr);
 	free(number);

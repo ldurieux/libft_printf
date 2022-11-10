@@ -31,7 +31,7 @@ int	ft_vasprintf(char **strp, const char *format, va_list ap)
 	int	length;
 
 	length = 0;
-	*strp = malloc(sizeof(char) * length + 1);
+	*strp = malloc(sizeof(char) * (uint64_t)(length + 1));
 	if (!*strp)
 		return (-1);
 	return (ft_vsprintf(*strp, format, ap));

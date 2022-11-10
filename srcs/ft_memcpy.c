@@ -22,7 +22,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t len)
 
 	if (!dst || !src)
 		return (NULL);
-	i = -1;
+	i = (size_t)-1;
 	if ((t_uint64)dst % sizeof(t_uint64) == 0
 		&& (t_uint64)src % sizeof(t_uint64) == 0
 		&& len % sizeof(t_uint64) == 0)

@@ -29,9 +29,9 @@ char	*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
 	while (value != 0)
 	{
 		*buf_ptr-- = base[value % raddix];
-		value /= (long long)raddix;
+		value /= raddix;
 	}
-	*res_len = (int)(&buf[LLONG_MAX_SIZE] - buf_ptr);
+	*res_len = (size_t)(&buf[LLONG_MAX_SIZE] - buf_ptr);
 	res = malloc(sizeof(char) * (*res_len + 1));
 	if (!res)
 		return (NULL);
@@ -57,7 +57,7 @@ char	*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
 		*buf_ptr-- = base[ft_abs(value % (t_int64)raddix)];
 		value /= (long long)raddix;
 	}
-	*res_len = (int)(&buf[LLONG_MAX_SIZE] - buf_ptr);
+	*res_len = (size_t)(&buf[LLONG_MAX_SIZE] - buf_ptr);
 	res = malloc(sizeof(char) * (*res_len + 1));
 	if (!res)
 		return (NULL);
