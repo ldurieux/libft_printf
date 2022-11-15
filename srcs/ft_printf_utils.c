@@ -25,7 +25,7 @@ char	*ft_printf_base(t_printf_conversion conv)
 	return (NULL);
 }
 
-int	ft_printf_setalter(t_uint64 val, const char *number,
+int	ft_printf_setalter(uint64_t val, const char *number,
 						int number_len, t_printf_conversion *conv)
 {
 	if ((conv->conv & C_Octal && (number[0] == '0'

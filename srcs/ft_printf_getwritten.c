@@ -14,10 +14,10 @@
 
 typedef union u_cast
 {
-	t_int64	lld;
-	t_int32	d;
-	t_int16	hd;
-	t_int8	hhd;
+	int64_t	lld;
+	int32_t	d;
+	int16_t	hd;
+	int8_t	hhd;
 }	t_cast;
 
 void	ft_printf_getwritten(int written, t_printf_conversion conv,
@@ -27,15 +27,15 @@ void	ft_printf_getwritten(int written, t_printf_conversion conv,
 
 	cast.d = written;
 	if (conv.length_mod & L_Int_Min)
-		*((t_int8 *)arg.p) = cast.hhd;
+		*((int8_t *)arg.p) = cast.hhd;
 	else if (conv.length_mod & L_Int_Small)
-		*((t_int16 *)arg.p) = cast.hd;
+		*((int16_t *)arg.p) = cast.hd;
 	else if (conv.length_mod & L_Int_Long
 		|| conv.length_mod & L_Int_LongLong
 		|| conv.length_mod & L_Int_Max
 		|| conv.length_mod & L_Int_Size
 		|| conv.length_mod & L_Ptrdiff)
-		*((t_int64 *)arg.p) = cast.lld;
+		*((int64_t *)arg.p) = cast.lld;
 	else
-		*((t_int32 *)arg.p) = cast.d;
+		*((int32_t *)arg.p) = cast.d;
 }

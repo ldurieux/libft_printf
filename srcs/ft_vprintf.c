@@ -15,7 +15,7 @@
 
 int	ft_vprintf(const char *format, va_list ap)
 {
-	return (ft_vdprintf(STDOUT, format, ap));
+	return (ft_vdprintf(STDOUT_FILENO, format, ap));
 }
 
 int	ft_vdprintf(int fd, const char *format, va_list ap)

@@ -12,7 +12,7 @@
 
 #include "ft_printf_internal.h"
 
-static t_bool	ft_printf_hassign(t_int64 val, t_printf_conversion conv)
+static int	ft_printf_hassign(int64_t val, t_printf_conversion conv)
 {
 	if (conv.flags & F_Space_Prefixed && val >= 0)
 		return (1);
@@ -23,7 +23,7 @@ static t_bool	ft_printf_hassign(t_int64 val, t_printf_conversion conv)
 	return (0);
 }
 
-static size_t	ft_printf_putsign(int fd, t_int64 val, t_printf_conversion conv)
+static size_t	ft_printf_putsign(int fd, int64_t val, t_printf_conversion conv)
 {
 	if (conv.flags & F_Space_Prefixed && val >= 0)
 		return ((size_t)write(fd, " ", 1));
@@ -42,7 +42,7 @@ static void	ft_printf_putint_init(char *a_chr, t_printf_conversion *conv,
 	*has_precision = conv->precision != -1;
 }
 
-int	ft_printf_putint(int fd, t_printf_conversion conv, t_int64 val)
+int	ft_printf_putint(int fd, t_printf_conversion conv, int64_t val)
 {
 	char	*number;
 	size_t	number_len;
@@ -52,7 +52,7 @@ int	ft_printf_putint(int fd, t_printf_conversion conv, t_int64 val)
 
 	ft_printf_putint_init(&a_chr, &conv, &has_precision, &res_len);
 	number = ft_printf_lltoa(val, conv, "0123456789", &number_len);
-	conv.precision = (int)ft_max(conv.precision, (t_int64)number_len);
+	conv.precision = (int)ft_max(conv.precision, (int64_t)number_len);
 	conv.width = (int)ft_max(conv.precision, conv.width)
 		- ft_printf_hassign(val, conv);
 	if (!has_precision && conv.flags & F_Zero_Padded)

@@ -17,7 +17,7 @@ static t_printf_arg	ft_getint(t_printf_conversion conv, va_list args)
 	t_printf_arg	res;
 
 	if (conv.length_mod & L_Int_Min)
-		res.i = (t_int64)(char)va_arg(args, int);
+		res.i = (int64_t)(char)va_arg(args, int);
 	else if (conv.length_mod & L_Int_Small)
 		res.i = (short)va_arg(args, int);
 	else if (conv.length_mod & L_Int_Long)
@@ -25,11 +25,11 @@ static t_printf_arg	ft_getint(t_printf_conversion conv, va_list args)
 	else if (conv.length_mod & L_Int_LongLong)
 		res.i = (long long)va_arg(args, long long);
 	else if (conv.length_mod & L_Int_Max)
-		res.i = (t_intmax)va_arg(args, t_intmax);
+		res.i = (intmax_t)va_arg(args, intmax_t);
 	else if (conv.length_mod & L_Int_Size)
-		res.i = (t_int64)va_arg(args, size_t);
+		res.i = (int64_t)va_arg(args, size_t);
 	else if (conv.length_mod & L_Ptrdiff)
-		res.i = va_arg(args, t_ptrdiff);
+		res.i = va_arg(args, ptrdiff_t);
 	else
 		res.i = va_arg(args, int);
 	return (res);
@@ -48,11 +48,11 @@ static t_printf_arg	ft_getuint(t_printf_conversion conv, va_list args)
 	else if (conv.length_mod & L_Int_LongLong)
 		res.u = (unsigned long long)va_arg(args, unsigned long long);
 	else if (conv.length_mod & L_Int_Max)
-		res.u = (t_uintmax)va_arg(args, t_uintmax);
+		res.u = (uintmax_t)va_arg(args, uintmax_t);
 	else if (conv.length_mod & L_Int_Size)
 		res.u = va_arg(args, size_t);
 	else if (conv.length_mod & L_Ptrdiff)
-		res.u = (t_uint64)va_arg(args, t_ptrdiff);
+		res.u = (uint64_t)va_arg(args, ptrdiff_t);
 	else
 		res.u = va_arg(args, unsigned int);
 	return (res);

@@ -14,6 +14,7 @@
 # define FT_PRINTF_INTERNAL_H
 
 # include <stdarg.h>
+# include <stdint.h>
 # include "libft.h"
 
 enum e_flags
@@ -59,15 +60,15 @@ typedef struct s_printf_conversion
 {
 	int			width;
 	int			precision;
-	t_uint8		flags;
-	t_uint8		length_mod;
-	t_uint16	conv;
+	uint8_t		flags;
+	uint8_t		length_mod;
+	uint16_t	conv;
 }	t_printf_conversion;
 
 typedef union u_printf_arg
 {
-	t_int64		i;
-	t_uint64	u;
+	int64_t		i;
+	uint64_t	u;
 	char		c;
 	char		*s;
 	void		*p;
@@ -89,24 +90,24 @@ char				*ft_printf_base(t_printf_conversion conv);
 
 /* remove F_Alternate if not needed
  * and return the prefix size */
-int					ft_printf_setalter(t_uint64 val, const char *number,
+int					ft_printf_setalter(uint64_t val, const char *number,
 						int number_len, t_printf_conversion *conv);
 size_t				ft_printf_putalign(int fd, int len, char chr);
 
-char				*ft_printf_lltoa(t_int64 value, t_printf_conversion conv,
+char				*ft_printf_lltoa(int64_t value, t_printf_conversion conv,
 						char *base, size_t *res_len);
-char				*ft_printf_ulltoa(t_uint64 value, t_printf_conversion conv,
+char				*ft_printf_ulltoa(uint64_t value, t_printf_conversion conv,
 						char *base, size_t *res_len);
 
 int					ft_printf_putint(int fd, t_printf_conversion conv,
-						t_int64 val);
+						int64_t val);
 int					ft_printf_putuint(int fd, t_printf_conversion conv,
-						t_uint64 val);
+						uint64_t val);
 int					ft_printf_putchar(int fd, t_printf_conversion conv,
 						char val);
 int					ft_printf_putstr(int fd, t_printf_conversion conv,
 						char *str);
 int					ft_printf_putptr(int fd, t_printf_conversion conv,
-						t_uint64 val);
+						uint64_t val);
 
 #endif

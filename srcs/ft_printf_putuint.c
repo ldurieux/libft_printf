@@ -26,7 +26,7 @@ static size_t	ft_printf_putprefix(int fd, t_printf_conversion conv)
 	return (0);
 }
 
-int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
+int	ft_printf_putuint(int fd, t_printf_conversion conv, uint64_t val)
 {
 	char	*number;
 	size_t	number_len;
@@ -37,7 +37,7 @@ int	ft_printf_putuint(int fd, t_printf_conversion conv, t_uint64 val)
 	a_chr = (char)(' ' + ((conv.flags & F_Zero_Padded) != 0) * ('0' - ' '));
 	res_len = 0;
 	number = ft_printf_ulltoa(val, conv, ft_printf_base(conv), &number_len);
-	conv.precision = (int)ft_max(conv.precision, (t_int64)number_len);
+	conv.precision = (int)ft_max(conv.precision, (int64_t)number_len);
 	conv.width = (int)ft_max(conv.precision, conv.width);
 	conv.width -= ft_printf_setalter(val, number, (int)number_len, &conv);
 	if (!(conv.flags & F_Left_Adjusted))

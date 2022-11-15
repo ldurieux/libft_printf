@@ -14,7 +14,7 @@
 
 static void	ft_get_flags(char **format, t_printf_conversion *conv)
 {
-	t_uint8	res;
+	uint8_t	res;
 
 	res = 0;
 	while (ft_strpbrk(*format, "#0- +") == *format)
@@ -61,8 +61,8 @@ static void	ft_get_width_and_precision(char **format,
 static void	ft_get_length_modifier(char **format,
 				t_printf_conversion *conv)
 {
-	t_uint8		res;
-	t_ptrdiff	len;
+	uint8_t		res;
+	ptrdiff_t	len;
 
 	res = 0;
 	len = (ft_strpbrk(*format, "hlLjzt") - *format) + 1;
@@ -83,7 +83,7 @@ static void	ft_get_length_modifier(char **format,
 	{
 		res |= (ft_strncmp(*format, "hh", 2) == 0) * L_Int_Min;
 		res |= (ft_strncmp(*format, "ll", 2) == 0) * L_Int_LongLong;
-		(*format) += (t_ptrdiff)((res != 0) * 2);
+		(*format) += (ptrdiff_t)((res != 0) * 2);
 	}
 	conv->length_mod = res;
 }

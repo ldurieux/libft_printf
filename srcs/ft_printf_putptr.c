@@ -12,7 +12,7 @@
 
 #include "ft_printf_internal.h"
 
-int	ft_printf_putptr(int fd, t_printf_conversion conv, t_uint64 val)
+int	ft_printf_putptr(int fd, t_printf_conversion conv, uint64_t val)
 {
 	char	*number;
 	size_t	number_len;
