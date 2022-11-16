@@ -54,20 +54,17 @@ NASMFLAGS	= -felf64
 
 all : $(NAME)
 
-$(NAME) : $(BUILDDIR) $(LIB_PATHS) $(OBJS)
+$(NAME) : $(LIB_PATHS) $(OBJS)
 		cp libft/libft.a ./libftprintf.a
-		$(AR) $(ARFLAGS) $(NAME) $(addprefix $(BUILDDIR)/, $(notdir $(OBJS)))
+		$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
 bonus : $(NAME)
 
 test : $(BUILDDIR) $(LIB_PATHS) $(OBJS) main.o
-		$(CC) $(CCWFLGS) -o test $(addprefix $(BUILDDIR)/, $(notdir $(OBJS) main.o))
+		$(CC) $(CCWFLGS) -o test $(OBJS) $(BUILDDIR)/main.o
 
 $(LIB_PATHS) :
 		$(MAKE) $(dir $@)
-
-$(BUILDDIR) :
-		-$(MKDIR) $(BUILDDIR)
 
 clean :
 		-$(RM) $(BUILDDIR)
@@ -81,12 +78,14 @@ fclean : clean
 re : fclean all
 
 $(BUILDDIR)/%.o : %.s Makefile
-		$(NASM) $(NASMFLAGS) -o $@ $<
+		mkdir -p $(@D)
+		$(NASM) $(NASMFLAGS) -o $(BUILDDIR)/$@ $<
 
 -include $(DEPS)
 
 $(BUILDDIR)/%.o : %.c Makefile
-		$(CC) $(CCWFLGS) $(DEPSFLAGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $(BUILDDIR)/$(notdir $@)
+		mkdir -p $(@D)
+		$(CC) $(CCWFLGS) $(DEPSFLAGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $@
 
 .PHONY: all clean fclean re bonus
 
