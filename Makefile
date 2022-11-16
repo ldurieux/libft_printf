@@ -86,7 +86,7 @@ $(BUILDDIR)/%.o : %.s Makefile
 -include $(DEPS)
 
 $(BUILDDIR)/%.o : %.c Makefile
-		$(CC) $(CCWFLGS) $(DEPSFLAGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $(BUILDDIR)/$(notdir $@) $(LIB_LD) $(LIBS)
+		$(CC) $(CCWFLGS) $(DEPSFLAGS) $(CCDEFSFLGS) -I$(HEADERS) $(LIB_HEADERS) -c $< -o $(BUILDDIR)/$(notdir $@)
 
 .PHONY: all clean fclean re bonus
 
